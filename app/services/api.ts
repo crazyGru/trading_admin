@@ -10,7 +10,6 @@ const api = axios.create({
 // Add a request interceptor to include the token in the header
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
-  console.log('Token:', token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -70,11 +69,12 @@ export const getUserWithdrawHistory = async (username: string) => {
 
 export const getUserBalance = async (username: string) => {
   const response = await api.get(`/users/${username}/balance`);
+  // console.log(response.data,'update');
   return response.data;
 };
 
 export const updateUserAutoWithdraw = async (username: string, autoWithdraw: boolean) => {
-  const response = await api.patch(`/user/${username}/auto_withdraw`, { auto_withdraw: autoWithdraw });
+  const response = await api.patch(`/user/${username}/auto_withdraw?auto_withdraw=${autoWithdraw}`);
   return response.data;
 };
 

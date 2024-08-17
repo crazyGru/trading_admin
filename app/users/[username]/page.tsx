@@ -7,8 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { motion } from 'framer-motion';
-
+import { useToast } from '@/components/ui/use-toast';
 export default function UserDetails() {
+  const {toast} = useToast();
   const { username } = useParams();
   const [user, setUser] = useState<any>(null);
   const [chargeHistory, setChargeHistory] = useState([]);
@@ -41,6 +42,12 @@ export default function UserDetails() {
     try {
       await updateUserAutoWithdraw(username as string, !user.auto_withdraw);
       setUser({ ...user, auto_withdraw: !user.auto_withdraw });
+      toast({
+        title: "Auto withdraw updated",
+        description: "Your account has been updated.",
+        variant: "default",
+        className: "bg-green-600 text-white",
+      })
     } catch (error) {
       console.error('Failed to update auto withdraw', error);
     }
